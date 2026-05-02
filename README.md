@@ -155,6 +155,8 @@ automation:
 
 ### Notify when a code is used
 
+> **Note:** Code usage is detected by polling, so this notification may be delayed by up to one poll interval (default 60 seconds).
+
 ```yaml
 automation:
   - alias: "Notify on code use"
