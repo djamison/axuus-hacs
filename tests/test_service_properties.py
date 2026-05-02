@@ -14,12 +14,12 @@ from __future__ import annotations
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from custom_components.axuus import _async_handle_authorize_vehicle
 from custom_components.axuus.const import DOMAIN
 from custom_components.axuus.coordinator import AxuusData
-
 
 # ---------------------------------------------------------------------------
 # Helpers

@@ -33,7 +33,6 @@ from custom_components.axuus.const import (
 )
 from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 
-
 # ---------------------------------------------------------------------------
 # Sample data
 # ---------------------------------------------------------------------------
@@ -460,7 +459,7 @@ async def test_diff_fires_vehicle_removed() -> None:
 
 async def test_new_vehicle_triggers_get_vehicle() -> None:
     """New vehicle appearing triggers get_vehicle() call on next poll."""
-    coordinator, client, hass = _make_coordinator()
+    coordinator, client, _hass = _make_coordinator()
 
     # Previous data has one vehicle (already fetched)
     coordinator._previous_data = AxuusData(

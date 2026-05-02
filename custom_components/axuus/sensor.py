@@ -12,11 +12,12 @@ from typing import Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
-from .coordinator import AxuusCoordinator, AxuusData
+from .coordinator import AxuusCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -93,6 +94,12 @@ class AxuusCodeSensor(CoordinatorEntity[AxuusCoordinator], SensorEntity):
         self._code_id = code_id
         self._attr_unique_id = f"axuus_{code_id}_code"
         self._attr_name = f"Axuus Code {code_id}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry_id)},
+            name=coordinator.account_name,
+            manufacturer="Axuus",
+            entry_type=DeviceEntryType.SERVICE,
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -159,6 +166,12 @@ class AxuusCountSensor(CoordinatorEntity[AxuusCoordinator], SensorEntity):
         self._data_attr = data_attr
         self._attr_unique_id = f"axuus_{count_type}_count"
         self._attr_name = name
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry_id)},
+            name=coordinator.account_name,
+            manufacturer="Axuus",
+            entry_type=DeviceEntryType.SERVICE,
+        )
 
     @property
     def native_value(self) -> int | None:

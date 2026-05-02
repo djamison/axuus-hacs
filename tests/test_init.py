@@ -14,9 +14,7 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
-
-from custom_components.axuus import async_setup_entry, async_unload_entry, _async_update_options
+from custom_components.axuus import _async_update_options, async_setup_entry, async_unload_entry
 from custom_components.axuus.const import (
     AUTH_METHOD_COOKIE,
     AUTH_METHOD_CREDENTIALS,
@@ -29,7 +27,6 @@ from custom_components.axuus.const import (
     DOMAIN,
     PLATFORMS,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -116,6 +113,8 @@ async def test_setup_entry_credentials() -> None:
         hass,
         mock_client,
         update_interval=timedelta(seconds=DEFAULT_POLL_INTERVAL),
+        config_entry_id="test_entry_id",
+        account_name=entry.title,
     )
 
     # First refresh called

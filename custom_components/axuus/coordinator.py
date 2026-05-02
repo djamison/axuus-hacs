@@ -7,7 +7,6 @@ Handles auth recovery (single re-login) and transient error propagation.
 
 from __future__ import annotations
 
-import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import timedelta
@@ -57,6 +56,9 @@ class AxuusCoordinator(DataUpdateCoordinator[AxuusData]):
         hass: HomeAssistant,
         client: AxuusClient,
         update_interval: timedelta,
+        *,
+        config_entry_id: str = "",
+        account_name: str = "Axuus",
     ) -> None:
         super().__init__(
             hass,
@@ -66,6 +68,8 @@ class AxuusCoordinator(DataUpdateCoordinator[AxuusData]):
         )
         self.client = client
         self._previous_data: AxuusData | None = None
+        self.config_entry_id = config_entry_id
+        self.account_name = account_name
 
     async def _async_update_data(self) -> AxuusData:
         """Poll the Axuus API and return a fresh snapshot."""
@@ -88,7 +92,7 @@ class AxuusCoordinator(DataUpdateCoordinator[AxuusData]):
                 raise ConfigEntryAuthFailed(
                     "Poll failed after re-login, triggering reauth flow"
                 ) from err
-        except (AxuusServerError, aiohttp.ClientError, asyncio.TimeoutError) as err:
+        except (TimeoutError, AxuusServerError, aiohttp.ClientError) as err:
             raise UpdateFailed(f"Error communicating with Axuus: {err}") from err
 
     async def _do_poll(self) -> AxuusData:

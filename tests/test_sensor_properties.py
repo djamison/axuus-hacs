@@ -14,12 +14,12 @@ from __future__ import annotations
 from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock
 
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from custom_components.axuus.api.models import AccessCode, Vehicle, VehicleType
 from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 from custom_components.axuus.sensor import AxuusCodeSensor, AxuusCountSensor
-
 
 # ---------------------------------------------------------------------------
 # Hypothesis strategies
@@ -110,6 +110,8 @@ def _make_mock_coordinator(data: AxuusData) -> MagicMock:
     coordinator.data = data
     coordinator.last_update_success = True
     coordinator.async_request_refresh = AsyncMock()
+    coordinator.config_entry_id = "test_entry"
+    coordinator.account_name = "Axuus"
     return coordinator
 
 

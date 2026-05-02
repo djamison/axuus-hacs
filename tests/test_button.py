@@ -10,11 +10,8 @@ from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
-
-from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 from custom_components.axuus.button import AxuusRefreshButton
-
+from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -33,6 +30,8 @@ def _make_mock_coordinator() -> MagicMock:
     )
     coordinator.last_update_success = True
     coordinator.async_request_refresh = AsyncMock()
+    coordinator.config_entry_id = "test_entry"
+    coordinator.account_name = "Axuus"
     return coordinator
 
 

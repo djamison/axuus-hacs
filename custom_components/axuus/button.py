@@ -8,6 +8,7 @@ from __future__ import annotations
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -35,6 +36,12 @@ class AxuusRefreshButton(CoordinatorEntity[AxuusCoordinator], ButtonEntity):
         super().__init__(coordinator)
         self._attr_unique_id = "axuus_refresh"
         self._attr_name = "Axuus Refresh"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry_id)},
+            name=coordinator.account_name,
+            manufacturer="Axuus",
+            entry_type=DeviceEntryType.SERVICE,
+        )
 
     async def async_press(self) -> None:
         """Handle the button press — trigger an immediate coordinator refresh."""

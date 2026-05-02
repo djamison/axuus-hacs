@@ -14,7 +14,8 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from custom_components.axuus.api.models import AccessCode, Vehicle, VehicleType
 from custom_components.axuus.const import (
@@ -25,7 +26,6 @@ from custom_components.axuus.const import (
     EVENT_VEHICLE_REMOVED,
 )
 from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
-
 
 # ---------------------------------------------------------------------------
 # Hypothesis strategies

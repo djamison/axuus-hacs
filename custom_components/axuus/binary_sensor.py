@@ -12,6 +12,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -41,6 +42,12 @@ class AxuusConnectionSensor(CoordinatorEntity[AxuusCoordinator], BinarySensorEnt
         super().__init__(coordinator)
         self._attr_unique_id = "axuus_connection"
         self._attr_name = "Axuus Connection"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry_id)},
+            name=coordinator.account_name,
+            manufacturer="Axuus",
+            entry_type=DeviceEntryType.SERVICE,
+        )
 
     @property
     def is_on(self) -> bool:

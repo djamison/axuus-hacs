@@ -12,6 +12,7 @@ import logging
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -84,6 +85,12 @@ class AxuusVehicleAuthorizedSwitch(CoordinatorEntity[AxuusCoordinator], SwitchEn
         self._vehicle_id = vehicle_id
         self._attr_unique_id = f"axuus_{vehicle_id}_authorized"
         self._attr_name = f"Axuus Vehicle {vehicle_id} Authorized"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry_id)},
+            name=coordinator.account_name,
+            manufacturer="Axuus",
+            entry_type=DeviceEntryType.SERVICE,
+        )
 
     @property
     def is_on(self) -> bool | None:

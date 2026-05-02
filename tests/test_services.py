@@ -15,7 +15,7 @@ Requirements: 11.1–11.7, 12.1–12.7, 13.1–13.2
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from homeassistant.exceptions import ServiceValidationError
@@ -30,7 +30,6 @@ from custom_components.axuus import (
 )
 from custom_components.axuus.const import DOMAIN
 from custom_components.axuus.coordinator import AxuusData
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -268,7 +267,7 @@ async def test_remove_vehicle_confirmed() -> None:
 
 async def test_remove_vehicle_not_confirmed() -> None:
     """remove_vehicle with confirm=false raises ServiceValidationError."""
-    hass, client, coordinator = _setup_hass()
+    hass, client, _coordinator = _setup_hass()
 
     call = _make_service_call(hass, {
         "vehicle_id": "V-aaaa-1111",
@@ -289,7 +288,7 @@ async def test_remove_vehicle_not_confirmed() -> None:
 
 async def test_refresh() -> None:
     """refresh calls coordinator.async_request_refresh()."""
-    hass, client, coordinator = _setup_hass()
+    hass, _client, coordinator = _setup_hass()
 
     call = _make_service_call(hass, {})
 

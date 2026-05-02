@@ -327,6 +327,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass,
         client,
         update_interval=timedelta(seconds=poll_interval),
+        config_entry_id=entry.entry_id,
+        account_name=entry.title,
     )
 
     # 5. First refresh — raises ConfigEntryAuthFailed (→ reauth) or

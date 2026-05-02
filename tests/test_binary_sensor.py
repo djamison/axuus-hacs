@@ -10,12 +10,10 @@ from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 
-from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 from custom_components.axuus.binary_sensor import AxuusConnectionSensor
-
+from custom_components.axuus.coordinator import AxuusCoordinator, AxuusData
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -34,6 +32,8 @@ def _make_mock_coordinator(last_update_success: bool = True) -> MagicMock:
     )
     coordinator.last_update_success = last_update_success
     coordinator.async_request_refresh = AsyncMock()
+    coordinator.config_entry_id = "test_entry"
+    coordinator.account_name = "Axuus"
     return coordinator
 
 

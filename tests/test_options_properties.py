@@ -11,7 +11,8 @@ it is between 30 and 600 inclusive.
 from __future__ import annotations
 
 import voluptuous as vol
-from hypothesis import given, settings, strategies as st
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from custom_components.axuus.const import (
     CONF_POLL_INTERVAL,
