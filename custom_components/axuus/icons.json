@@ -1,0 +1,22 @@
+{
+    "services": {
+        "create_code": {
+            "service": "mdi:lock-plus"
+        },
+        "update_code": {
+            "service": "mdi:lock-reset"
+        },
+        "delete_code": {
+            "service": "mdi:lock-minus"
+        },
+        "authorize_vehicle": {
+            "service": "mdi:car-key"
+        },
+        "remove_vehicle": {
+            "service": "mdi:car-off"
+        },
+        "refresh": {
+            "service": "mdi:refresh"
+        }
+    }
+}
