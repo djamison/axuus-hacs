@@ -13,7 +13,6 @@ from aioresponses import aioresponses
 from custom_components.axuus.api import (
     AxuusAuthError,
     AxuusClient,
-    AxuusError,
 )
 from custom_components.axuus.api.exceptions import AxuusServerError
 

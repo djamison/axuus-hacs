@@ -1,0 +1,120 @@
+create_code:
+  name: Create Access Code
+  description: Create a new Axuus gate access code
+  fields:
+    description:
+      name: Description
+      description: Description for the access code
+      required: true
+      selector:
+        text:
+    expires_after:
+      name: Expires After
+      description: "Expiry duration (onetime, oneday, threedays, oneweek, onemonth)"
+      required: true
+      selector:
+        select:
+          options:
+            - onetime
+            - oneday
+            - threedays
+            - oneweek
+            - onemonth
+    assign_lp:
+      name: Assign License Plate
+      description: Auto-add visitor's plate on code use
+      default: false
+      selector:
+        boolean:
+    email_to:
+      name: Email To
+      description: Email address to send the code to
+      selector:
+        text:
+    sms_to:
+      name: SMS To
+      description: Phone number to send the code to
+      selector:
+        text:
+
+update_code:
+  name: Update Access Code
+  description: Update an existing Axuus access code
+  fields:
+    code_id:
+      name: Code ID
+      description: The ID of the access code to update
+      required: true
+      selector:
+        number:
+          mode: box
+    description:
+      name: Description
+      description: New description for the code
+      selector:
+        text:
+    assign_lp:
+      name: Assign License Plate
+      description: Auto-add visitor's plate on code use
+      selector:
+        boolean:
+    email_to:
+      name: Email To
+      description: Email address to send the code to
+      selector:
+        text:
+    sms_to:
+      name: SMS To
+      description: Phone number to send the code to
+      selector:
+        text:
+
+delete_code:
+  name: Delete Access Code
+  description: Delete an Axuus access code
+  fields:
+    code_id:
+      name: Code ID
+      description: The ID of the access code to delete
+      required: true
+      selector:
+        number:
+          mode: box
+
+authorize_vehicle:
+  name: Authorize Vehicle
+  description: Set vehicle gate authorization state
+  fields:
+    vehicle_id:
+      name: Vehicle ID
+      description: The ID of the vehicle
+      required: true
+      selector:
+        text:
+    authorized:
+      name: Authorized
+      description: Desired authorization state (true to authorize, false to unauthorize)
+      required: true
+      selector:
+        boolean:
+
+remove_vehicle:
+  name: Remove Vehicle
+  description: Soft-remove a vehicle from your Axuus account
+  fields:
+    vehicle_id:
+      name: Vehicle ID
+      description: The ID of the vehicle to remove
+      required: true
+      selector:
+        text:
+    confirm:
+      name: Confirm
+      description: Must be true to proceed with removal
+      required: true
+      selector:
+        boolean:
+
+refresh:
+  name: Refresh
+  description: Trigger an immediate data refresh from the Axuus portal

@@ -1,11 +1,11 @@
 {
     "domain": "axuus",
     "name": "Axuus",
-    "version": "0.0.1",
     "codeowners": ["@djamison"],
     "config_flow": true,
     "documentation": "https://github.com/djamison/axuus-hacs",
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/djamison/axuus-hacs/issues",
-    "requirements": []
+    "requirements": [],
+    "version": "0.0.1"
 }

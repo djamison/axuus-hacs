@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class VehicleType(str, Enum):
+class VehicleType(StrEnum):
     RESIDENT = "resident"
     GUEST = "guest"
 
@@ -43,7 +43,7 @@ class AccessCode:
     times_used: int
 
     @classmethod
-    def from_row(cls, row: dict[str, Any]) -> "AccessCode":
+    def from_row(cls, row: dict[str, Any]) -> AccessCode:
         """Parse a single aaData row from GetAccessCodes.
 
         Rows look like {"0": "<id>", "1": "<code>", "2": "...", "DT_RowId": "..."}.
@@ -78,7 +78,7 @@ class Vehicle:
     authorized: bool | None = None  # populated by GetVehicle, not by list endpoints
 
     @classmethod
-    def from_row(cls, row: dict[str, Any], vehicle_type: VehicleType) -> "Vehicle":
+    def from_row(cls, row: dict[str, Any], vehicle_type: VehicleType) -> Vehicle:
         return cls(
             vehicle_id=str(row["0"]),
             lp_num=str(row.get("1", "") or ""),

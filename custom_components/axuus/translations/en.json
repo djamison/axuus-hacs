@@ -1,0 +1,57 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Axuus",
+        "description": "Choose how to authenticate with your Axuus account.",
+        "menu_options": {
+          "credentials": "Email and password",
+          "cookie": "Paste .ASPXAUTH cookie"
+        }
+      },
+      "credentials": {
+        "title": "Axuus — Sign In",
+        "description": "Enter your Axuus account credentials.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "cookie": {
+        "title": "Axuus — Paste Cookie",
+        "description": "Paste the .ASPXAUTH cookie value from your browser's developer tools.",
+        "data": {
+          "aspxauth": ".ASPXAUTH cookie value"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Axuus — Re-authenticate",
+        "description": "Your Axuus session has expired. Choose how to re-authenticate.",
+        "menu_options": {
+          "credentials": "Email and password",
+          "cookie": "Paste .ASPXAUTH cookie"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password.",
+      "captcha_required": "Captcha required by Axuus. Please use the paste-cookie method instead.",
+      "invalid_cookie": "The cookie is invalid or has expired.",
+      "cannot_connect": "Cannot connect to Axuus. Please check your network connection."
+    },
+    "abort": {
+      "already_configured": "This Axuus account is already configured.",
+      "reauth_successful": "Re-authentication was successful."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Axuus Options",
+        "data": {
+          "poll_interval": "Poll interval (seconds)"
+        }
+      }
+    }
+  }
+}
