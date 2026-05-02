@@ -132,6 +132,28 @@ The integration fires events on the HA bus when changes are detected between pol
 | `axuus_vehicle_added` | New vehicle appears | vehicle_id, lp_num, lp_state, description, vehicle_type |
 | `axuus_vehicle_removed` | Vehicle disappears | vehicle_id, lp_num, description, vehicle_type, removed_via |
 
+## Creating a Code
+
+**From the UI:** Go to **Developer Tools → Actions**, search for `axuus.create_code`, fill in the fields, and call it. The new code appears as a sensor after the next poll (or press the Axuus Refresh button).
+
+**From an automation or script:** Use `response_variable` to capture the generated code:
+
+```yaml
+action:
+  - service: axuus.create_code
+    response_variable: result
+    data:
+      description: "Plumber visit"
+      expires_after: oneday
+  - service: notify.mobile_app
+    data:
+      message: "Gate code is {{ result.code }}"
+```
+
+The 6-digit code is also always available as the sensor state: `{{ states('sensor.axuus_<code_id>_code') }}`.
+
+**Deleting a code:** Call `axuus.delete_code` with the `code_id` (visible in the sensor's attributes). Deleting the sensor entity in HA does not delete the code in Axuus.
+
 ## Automation Examples
 
 ### Schedule a weekly cleaner code
