@@ -35,7 +35,8 @@ class AxuusRefreshButton(CoordinatorEntity[AxuusCoordinator], ButtonEntity):
         """Initialize the refresh button."""
         super().__init__(coordinator)
         self._attr_unique_id = "axuus_refresh"
-        self._attr_name = "Axuus Refresh"
+        self._attr_name = "Refresh"
+        self._attr_icon = "mdi:refresh"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry_id)},
             name=coordinator.account_name,

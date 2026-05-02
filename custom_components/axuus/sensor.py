@@ -21,11 +21,11 @@ from .coordinator import AxuusCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-# Count sensor definitions: (count_type, friendly_name, data_attribute)
-_COUNT_SENSORS: list[tuple[str, str, str]] = [
-    ("active_codes", "Axuus Active Codes Count", "codes"),
-    ("resident_vehicles", "Axuus Resident Vehicles Count", "resident_vehicles"),
-    ("guest_vehicles", "Axuus Guest Vehicles Count", "guest_vehicles"),
+# Count sensor definitions: (count_type, friendly_name, data_attribute, icon)
+_COUNT_SENSORS: list[tuple[str, str, str, str]] = [
+    ("active_codes", "Active Codes", "codes", "mdi:dialpad"),
+    ("resident_vehicles", "Resident Vehicles", "resident_vehicles", "mdi:car"),
+    ("guest_vehicles", "Guest Vehicles", "guest_vehicles", "mdi:car-outline"),
 ]
 
 
@@ -40,8 +40,8 @@ async def async_setup_entry(
 
     # Register aggregate count sensors immediately
     aggregate_sensors: list[SensorEntity] = [
-        AxuusCountSensor(coordinator, count_type, name, data_attr)
-        for count_type, name, data_attr in _COUNT_SENSORS
+        AxuusCountSensor(coordinator, count_type, name, data_attr, icon)
+        for count_type, name, data_attr, icon in _COUNT_SENSORS
     ]
     async_add_entities(aggregate_sensors)
 
@@ -93,13 +93,22 @@ class AxuusCodeSensor(CoordinatorEntity[AxuusCoordinator], SensorEntity):
         super().__init__(coordinator)
         self._code_id = code_id
         self._attr_unique_id = f"axuus_{code_id}_code"
-        self._attr_name = f"Axuus Code {code_id}"
+        self._attr_icon = "mdi:lock-smart"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry_id)},
             name=coordinator.account_name,
             manufacturer="Axuus",
             entry_type=DeviceEntryType.SERVICE,
         )
+
+    @property
+    def name(self) -> str:
+        """Return a friendly name using the code description."""
+        if self.coordinator.data is not None:
+            code = self.coordinator.data.codes.get(self._code_id)
+            if code is not None and code.description:
+                return code.description
+        return f"Code {self._code_id}"
 
     @property
     def native_value(self) -> str | None:
@@ -159,6 +168,7 @@ class AxuusCountSensor(CoordinatorEntity[AxuusCoordinator], SensorEntity):
         count_type: str,
         name: str,
         data_attr: str,
+        icon: str = "mdi:counter",
     ) -> None:
         """Initialize the count sensor."""
         super().__init__(coordinator)
@@ -166,6 +176,7 @@ class AxuusCountSensor(CoordinatorEntity[AxuusCoordinator], SensorEntity):
         self._data_attr = data_attr
         self._attr_unique_id = f"axuus_{count_type}_count"
         self._attr_name = name
+        self._attr_icon = icon
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry_id)},
             name=coordinator.account_name,

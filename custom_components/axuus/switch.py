@@ -84,13 +84,32 @@ class AxuusVehicleAuthorizedSwitch(CoordinatorEntity[AxuusCoordinator], SwitchEn
         self._client = client
         self._vehicle_id = vehicle_id
         self._attr_unique_id = f"axuus_{vehicle_id}_authorized"
-        self._attr_name = f"Axuus Vehicle {vehicle_id} Authorized"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry_id)},
             name=coordinator.account_name,
             manufacturer="Axuus",
             entry_type=DeviceEntryType.SERVICE,
         )
+
+    @property
+    def name(self) -> str:
+        """Return a friendly name using description, LP, and vehicle type."""
+        if self.coordinator.data is not None:
+            vehicle = self.coordinator.data.all_vehicles.get(self._vehicle_id)
+            if vehicle is not None:
+                vtype = "Guest" if vehicle.vehicle_type.value == "guest" else "Resident"
+                label = vehicle.description or vehicle.lp_num or self._vehicle_id
+                return f"{label} ({vtype})"
+        return f"Vehicle {self._vehicle_id}"
+
+    @property
+    def icon(self) -> str:
+        """Return an icon distinguishing resident from guest vehicles."""
+        if self.coordinator.data is not None:
+            vehicle = self.coordinator.data.all_vehicles.get(self._vehicle_id)
+            if vehicle is not None and vehicle.vehicle_type.value == "guest":
+                return "mdi:car-outline"
+        return "mdi:car"
 
     @property
     def is_on(self) -> bool | None:

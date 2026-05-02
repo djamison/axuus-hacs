@@ -41,7 +41,8 @@ class AxuusConnectionSensor(CoordinatorEntity[AxuusCoordinator], BinarySensorEnt
         """Initialize the connection sensor."""
         super().__init__(coordinator)
         self._attr_unique_id = "axuus_connection"
-        self._attr_name = "Axuus Connection"
+        self._attr_name = "Connection"
+        self._attr_icon = "mdi:gate"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry_id)},
             name=coordinator.account_name,
