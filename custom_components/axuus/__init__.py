@@ -12,7 +12,7 @@ from datetime import timedelta
 import aiohttp
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 
 from .api.client import AxuusClient
@@ -107,7 +107,7 @@ def _get_coordinator(hass: HomeAssistant) -> AxuusCoordinator:
 # ---------------------------------------------------------------------------
 
 
-async def _async_handle_create_code(call: ServiceCall) -> None:
+async def _async_handle_create_code(call: ServiceCall) -> dict:
     """Handle axuus.create_code service call."""
     hass = call.hass
     client = _get_client(hass)
@@ -140,11 +140,7 @@ async def _async_handle_create_code(call: ServiceCall) -> None:
     # Trigger coordinator refresh to pick up the new code
     await coordinator.async_request_refresh()
 
-    # Store the generated code in the service response data
-    call.hass.bus.async_fire(
-        f"{DOMAIN}_code_created_response",
-        {"code": code, "description": description},
-    )
+    return {"code": code, "description": description}
 
 
 async def _async_handle_update_code(call: ServiceCall) -> None:
@@ -283,7 +279,11 @@ def _register_services(hass: HomeAssistant) -> None:
         return  # Already registered
 
     for service_name, (handler, schema) in _SERVICES.items():
-        hass.services.async_register(DOMAIN, service_name, handler, schema=schema)
+        supports_response = SupportsResponse.OPTIONAL if service_name == "create_code" else SupportsResponse.NONE
+        hass.services.async_register(
+            DOMAIN, service_name, handler, schema=schema,
+            supports_response=supports_response,
+        )
 
 
 def _unregister_services(hass: HomeAssistant) -> None:
