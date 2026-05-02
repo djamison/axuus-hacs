@@ -10,16 +10,21 @@ create_code:
         text:
     expires_after:
       name: Expires After
-      description: "Expiry duration (onetime, oneday, threedays, oneweek, onemonth)"
+      description: How long the code stays active
       required: true
       selector:
         select:
           options:
-            - onetime
-            - oneday
-            - threedays
-            - oneweek
-            - onemonth
+            - label: One-time use
+              value: onetime
+            - label: One day
+              value: oneday
+            - label: Three days
+              value: threedays
+            - label: One week
+              value: oneweek
+            - label: One month
+              value: onemonth
     assign_lp:
       name: Assign License Plate
       description: Auto-add visitor's plate on code use
