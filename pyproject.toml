@@ -4,6 +4,9 @@ version = "0.0.1"
 description = "Home Assistant integration for Axuus residential gate access"
 requires-python = ">=3.13"
 
+[tool.setuptools.packages.find]
+include = ["custom_components*"]
+
 [project.optional-dependencies]
 dev = [
     "aiohttp>=3.9",
